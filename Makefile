@@ -1,5 +1,2 @@
-run:
-	go run main.go
-
 build:
-	go build
+	go build ./cmd/tree
