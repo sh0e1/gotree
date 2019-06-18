@@ -21,7 +21,9 @@ Usage of gotree:
   -L int
         Descend only level directories deep. (default -1)
   -a    All files are listed.
+```
 
+```bash
 gotree
 .
 ├── LICENSE
