@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
@@ -17,21 +16,13 @@ func main() {
 	)
 
 	flag.Parse()
-	dirnames := flag.Args()
-	if len(dirnames) == 0 {
-		dirnames = []string{"."}
-	}
-
 	opt := &gotree.Option{
 		IsDisplayAllFiles: *a,
 		Level:             *l,
 	}
 	w := bufio.NewWriter(os.Stdout)
-	for _, dir := range dirnames {
-		fmt.Fprintf(w, "\x1b[34m%s\x1b[0m\n", dir)
-		if err := gotree.Tree(w, dir, "", 0, opt); err != nil {
-			log.Fatal(err)
-		}
+	if err := gotree.Execute(w, flag.Args(), opt); err != nil {
+		log.Fatal(err)
 	}
 	w.Flush()
 }

@@ -7,14 +7,21 @@ import (
 	"strings"
 )
 
-// Option ...
-type Option struct {
-	IsDisplayAllFiles bool
-	Level             int
+// Execute ...
+func Execute(w io.Writer, dirs []string, opt *Option) error {
+	if len(dirs) == 0 {
+		dirs = []string{"."}
+	}
+	for _, dir := range dirs {
+		fmt.Fprintf(w, "\x1b[34m%s\x1b[0m\n", dir)
+		if err := tree(w, dir, "", 0, opt); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
-// Tree ...
-func Tree(w io.Writer, dir, stem string, level int, opt *Option) error {
+func tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 	if opt.Level == level {
 		return nil
 	}
@@ -39,11 +46,10 @@ func Tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 			branch = "└──"
 			addition = "   "
 		}
-
 		if f.IsDir() {
 			fmt.Fprintf(w, "%s%s \x1b[34m%s\x1b[0m\n", stem, branch, filename)
 			dirname := fmt.Sprintf("%s/%s", dir, filename)
-			if err := Tree(w, dirname, stem+addition, level, opt); err != nil {
+			if err := tree(w, dirname, stem+addition, level, opt); err != nil {
 				return err
 			}
 		} else {
@@ -51,4 +57,10 @@ func Tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 		}
 	}
 	return nil
+}
+
+// Option ...
+type Option struct {
+	IsDisplayAllFiles bool
+	Level             int
 }
