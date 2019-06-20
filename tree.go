@@ -12,6 +12,11 @@ func Execute(w io.Writer, dirs []string, opt *Option) error {
 	if len(dirs) == 0 {
 		dirs = []string{"."}
 	}
+
+	if opt == nil {
+		opt = defaultOption
+	}
+
 	for _, dir := range dirs {
 		fmt.Fprintf(w, "%s\n", dir)
 		if err := tree(w, dir, "", 0, opt); err != nil {
@@ -61,4 +66,9 @@ func tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 type Option struct {
 	IsDisplayAllFiles bool
 	Level             int
+}
+
+var defaultOption = &Option{
+	IsDisplayAllFiles: false,
+	Level:             -1,
 }
