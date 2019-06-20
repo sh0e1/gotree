@@ -65,7 +65,8 @@ func tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 // Option is option structure of when execute the tree command
 type Option struct {
 	IsDisplayAllFiles bool
-	Level             int
+	// Output all directories and files recursively with level -1
+	Level int
 }
 
 var defaultOption = &Option{
