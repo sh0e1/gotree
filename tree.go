@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Execute ...
+// Execute function is directory and file structure print to io.Writer
 func Execute(w io.Writer, dirs []string, opt *Option) error {
 	if len(dirs) == 0 {
 		dirs = []string{"."}
@@ -62,7 +62,7 @@ func tree(w io.Writer, dir, stem string, level int, opt *Option) error {
 	return nil
 }
 
-// Option ...
+// Option is option structure of when execute the tree command
 type Option struct {
 	IsDisplayAllFiles bool
 	Level             int
